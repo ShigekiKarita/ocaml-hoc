@@ -7,9 +7,15 @@
     let get = Lexing.lexeme
 }
 
+let int = '-'? ['0'-'9'] ['0'-'9']*
+let digit = ['0'-'9']
+let frac = '.' digit*
+let exp = ['e' 'E'] ['-' '+']? digit+
+let float = digit* frac? exp?
+
 rule token = parse
   | [' ' '\t' '\n']         { token lexbuf }     (* skip blanks *)
-  | ['0'-'9']+ as lxm       { P.INT(int_of_string lxm) }
+  | float as lxm            { P.FLOAT(float_of_string lxm) }
   | '+'                     { P.PLUS }
   | '-'                     { P.MINUS }
   | '*'                     { P.TIMES }

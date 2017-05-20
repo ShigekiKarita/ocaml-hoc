@@ -1,4 +1,5 @@
 %token <int> INT
+%token <float> FLOAT
 %token PLUS MINUS TIMES DIV
 %token LPAREN RPAREN
 %left PLUS MINUS        /* lowest precedence */
@@ -6,7 +7,7 @@
 %nonassoc UMINUS        /* highest precedence */
 %start main             /* the entry point */
 %token EOF
-%type <int> main
+%type <float> main
 
 %%
 
@@ -17,11 +18,11 @@ main
   ;
 
 expr
-  : n = INT                 { n }
+  : n = FLOAT               { n }
   | LPAREN e = expr RPAREN  { e }
-  | e1=expr PLUS  e2=expr   { e1 + e2 }
-  | e1=expr MINUS e2=expr   { e1 - e2 }
-  | e1=expr TIMES e2=expr   { e1 * e2 }
-  | e1=expr DIV   e2=expr   { e2 / e1 }
-  | MINUS e = expr %prec UMINUS { - e }
+  | e1=expr PLUS  e2=expr   { e1 +. e2 }
+  | e1=expr MINUS e2=expr   { e1 -. e2 }
+  | e1=expr TIMES e2=expr   { e1 *. e2 }
+  | e1=expr DIV   e2=expr   { e1 /. e2 }
+  | MINUS e = expr %prec UMINUS { -. e }
   ;
