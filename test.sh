@@ -1,7 +1,7 @@
-#!/bin/sh -eu
+#!/bin/bash -eu
 
 check_eq() {
-    actual=$(echo "$1" | ./main.native)
+    actual=$(echo -e "$1" | ./main.native)
     expect=$(echo -e "\t$2")
     if [ "$actual" != "$expect" ]; then
         echo "<CHECK FAILED>"
@@ -9,15 +9,24 @@ check_eq() {
         echo expect: "$expect"
         exit 1
     fi
-    echo "OK: $1 => $2"
+    echo -e "OK: $1 => $2"
 }
 
 echo "CASE: HOC1"
+./main.native < /dev/null || exit 1;
+
 check_eq "4*3*2" 24
 check_eq "(1+2) * (3+4)" 21
 check_eq "1/2" 0.5
-check_eq "2 / 3" 0.666667
+check_eq "2 / 3" 0.66666667
 check_eq "-3-4" -7
-check_eq "355/113" 3.14159
+check_eq "355/113" 3.1415929
+
+echo "CASE HOC2"
+check_eq "a" 0
+check_eq "a=3" 3
+check_eq "a=3\n b=2\n a*b" "3\n\t2\n\t6"
+check_eq "a=b=1\na+b" "1\n\t2"
+
 
 echo ALL CHECK HAS PASSED

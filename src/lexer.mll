@@ -13,9 +13,12 @@ let frac = '.' digit*
 let exp = ['e' 'E'] ['-' '+']? digit+
 let float = digit* frac? exp?
 
+
 rule token = parse
   | [' ' '\t' '\n']         { token lexbuf }     (* skip blanks *)
+  | ['a'-'b'] as var        { P.VAR(var) }
   | float as lxm            { P.FLOAT(float_of_string lxm) }
+  | '='                     { P.SET }
   | '+'                     { P.PLUS }
   | '-'                     { P.MINUS }
   | '*'                     { P.TIMES }
