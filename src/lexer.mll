@@ -16,7 +16,7 @@ let float = digit* frac? exp?
 
 rule token = parse
   | [' ' '\t' '\n']         { token lexbuf }     (* skip blanks *)
-  | ['a'-'b'] as var        { P.VAR(var) }
+  | ['a'-'z'] as var        { P.VAR(var) }
   | float as lxm            { P.FLOAT(float_of_string lxm) }
   | '='                     { P.SET }
   | '+'                     { P.PLUS }
