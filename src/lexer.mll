@@ -26,4 +26,5 @@ rule token = parse
   | '('                     { P.LPAREN }
   | ')'                     { P.RPAREN }
   | eof                     { P.EOF }
+  | ';'                     { P.SEMICOLON }
   | _ { error "don't know how to handle '%s'" (get lexbuf) }

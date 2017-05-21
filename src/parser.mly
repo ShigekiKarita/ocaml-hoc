@@ -14,6 +14,8 @@
 %nonassoc UMINUS        /* highest precedence */
 %start main             /* the entry point */
 %token EOF
+%token SEMICOLON
+%left SEMICOLON
 %type <float> main
 
 %%
@@ -22,6 +24,7 @@
    instead of having to use $1, $2, $3 as in ocamlyacc *)
 main
   : e = expr EOF                { e }
+  | e1=expr SEMICOLON e2=main   { e2 }
   ;
 
 expr
