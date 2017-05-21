@@ -20,7 +20,7 @@ debug: sanity
 	$(OCB) -tag debug main.byte
 
 sanity:
-	which menhir || echo "opam install menhir"
+	@which menhir || echo "opam install menhir"
 
 test: native
 	./test.sh

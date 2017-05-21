@@ -1,5 +1,7 @@
 %{
-    let mem = Array.make 26 0.0
+    let mem =
+      let max_mem = (int_of_char 'z') - (int_of_char 'a') + 1 in
+      Array.make max_mem 0.0
     let mem_id c = (int_of_char c) - (int_of_char 'a')
 %}
 
