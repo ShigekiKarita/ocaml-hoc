@@ -3,6 +3,14 @@
       let max_mem = (int_of_char 'z') - (int_of_char 'a') + 1 in
       Array.make max_mem 0.0
     let mem_id c = (int_of_char c) - (int_of_char 'a')
+
+    let check_flow op a b  =
+      let c = op a b in
+      let ok x = not (x = infinity || x = -. infinity) in
+      if ok a && ok b && not (ok c) then
+        raise (Errors.Overflow_Exception (Printf.sprintf "> %g * %g = %g\n" a b c))
+      else c
+
 %}
 
 %token <float> FLOAT
@@ -34,9 +42,12 @@ expr
   | v = VAR                 { Array.get mem (mem_id v) }
   | v=VAR SET e=expr        { let i = mem_id v in Array.set mem i e; Array.get mem i }
   | LPAREN e = expr RPAREN  { e }
-  | e1=expr PLUS  e2=expr   { e1 +. e2 }
-  | e1=expr MINUS e2=expr   { e1 -. e2 }
-  | e1=expr TIMES e2=expr   { e1 *. e2 }
-  | e1=expr DIV   e2=expr   { e1 /. e2 }
+  | e1=expr PLUS  e2=expr   { check_flow (+.) e1 e2 }
+  | e1=expr MINUS e2=expr   { check_flow (-.) e1 e2 }
+  | e1=expr TIMES e2=expr   { check_flow ( *.) e1 e2 }
+  | e1=expr DIV   e2=expr   { if e2 = 0.0 then
+                                raise Division_by_zero
+                              else
+                                check_flow (/. ) e1 e2 }
   | MINUS e = expr %prec UMINUS { -. e }
   ;

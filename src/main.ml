@@ -9,6 +9,7 @@ let print_usage name = begin
     Printf.eprintf "  %s -c \"a = 1; a * 3\"\n" name
   end
 
+
 let main () =
   let argv   = Array.to_list Sys.argv in
   let name   = List.hd argv in
@@ -16,7 +17,11 @@ let main () =
   if args = [] then
     try
       while true do
-        read_line () |> eval
+        try
+          read_line () |> eval
+        with
+        | Division_by_zero -> print_endline "Division_by_zero"
+        | Errors.Overflow_Exception msg -> Printf.printf "Overflow: %s" msg
       done
     with End_of_file -> ()
   else if List.hd args = "-c" then
