@@ -29,6 +29,8 @@ check_eq "a=3\n b=2\n a*b" "3\n\t2\n\t6"
 check_eq "a=b=1\na+b" "1\n\t2"
 
 echo "==== CASE HOC2 with semicolon extension ===="
+check_eq "1 + 1;" "2"
+check_eq "a=2;a;" "2"
 check_eq "a=b=1;a+b" "2"
 check_eq "a=3;b=a+2;a*b" "15"
 check_eq "a=3 ; b = -a; -a-b" "0"
