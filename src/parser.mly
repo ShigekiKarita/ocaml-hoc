@@ -6,9 +6,9 @@
 
     let check_flow op a b  =
       let c = op a b in
-      let ok x = not (x = infinity || x = -. infinity) in
+      let ok x = x <> infinity && x <> -. infinity in
       if ok a && ok b && not (ok c) then
-        raise (Errors.Overflow_Exception (Printf.sprintf "> %g * %g = %g\n" a b c))
+        raise (Errors.Overflow_exception (Printf.sprintf "> %g * %g = %g\n" a b c))
       else c
 
 %}
@@ -33,7 +33,7 @@
    instead of having to use $1, $2, $3 as in ocamlyacc *)
 main
   : e = expr EOF                { e }
-  | e = expr SEMICOLON EOF       { e }
+  | e = expr SEMICOLON EOF      { e }
   | e1=expr SEMICOLON e2=main   { e2 }
   ;
 

@@ -27,6 +27,9 @@ check_eq "a" 0
 check_eq "a=3" 3
 check_eq "a=3\n b=2\n a*b" "3\n\t2\n\t6"
 check_eq "a=b=1\na+b" "1\n\t2"
+check_eq "a=1e300*1e300\na" "Overflow: > 1e+300 * 1e+300 = inf\n\t0"
+check_eq "a=1 / 0\na" "Division_by_zero\n\t0"
+
 
 echo "==== CASE HOC2 with semicolon extension ===="
 check_eq "1 + 1;" "2"
